@@ -9,7 +9,15 @@ finish-args:
   - --socket=fallback-x11
   - --socket=pulseaudio
   - --device=dri
-
+cleanup:
+  - /include
+  - /lib/cmake
+  - /lib/debug
+  - /lib/pkgconfig
+  - /share/glm
+  - /share/man
+  - '*.la'
+  - '*.a'
 modules:
   - shared-modules/SDL2/SDL2_image.json
   - shared-modules/SDL2/SDL2_ttf.json
@@ -37,6 +45,10 @@ modules:
 
   - name: solarus
     buildsystem: cmake-ninja
+    config-opts:
+      - -Wno-dev
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DSOLARUS_TESTS=OFF
     builddir: true
     post-install:
       - install -Dm0644 ../solarus-launcher.appdata.xml ${FLATPAK_DEST}/share/appdata/org.solarus_games.solarus.Launcher.appdata.xml
