@@ -1,0 +1,116 @@
+diff -Nrup a/editor/cmake/AddDependencies.cmake b/editor/cmake/AddDependencies.cmake
+--- a/editor/cmake/AddDependencies.cmake	2026-01-21 18:00:26.000000000 +0100
++++ b/editor/cmake/AddDependencies.cmake	2026-01-27 07:28:32.887232542 +0100
+@@ -46,14 +46,14 @@ endif()
+ 
+ # Control whether to use a local Qlementine build.
+ include(FetchContent)
+-option(SOLARUS_USE_LOCAL_QLEMENTINE "Use a local build of Qlementine instead of FetchContent download" OFF)
++option(SOLARUS_USE_LOCAL_QLEMENTINE "Use a local build of Qlementine instead of FetchContent download" ON)
+ if(SOLARUS_USE_LOCAL_QLEMENTINE)
+   set(SOLARUS_QLEMENTINE_LOCAL_PATH "" CACHE PATH "Path to the local Qlementine source directory")
+   # Check if the provided path is valid.
+   if(NOT IS_DIRECTORY "${SOLARUS_QLEMENTINE_LOCAL_PATH}")
+     message(FATAL_ERROR "SOLARUS_QLEMENTINE_LOCAL_PATH is set to '${SOLARUS_QLEMENTINE_LOCAL_PATH}' but it's not a valid directory. Please provide the correct path to your local qlementine clone.")
+   else()
+-    set(Qlementine_SOURCE_DIR ${QSOLARUS_LEMENTINE_LOCAL_PATH})
++    set(Qlementine_SOURCE_DIR ${SOLARUS_QLEMENTINE_LOCAL_PATH})
+     message(STATUS "Using local Qlementine source from: ${SOLARUS_QLEMENTINE_LOCAL_PATH}")
+   endif()
+   FetchContent_Declare(
+diff -Nrup a/launcher/cmake/addDependencies.cmake b/launcher/cmake/addDependencies.cmake
+--- a/launcher/cmake/addDependencies.cmake	2026-01-21 18:00:26.000000000 +0100
++++ b/launcher/cmake/addDependencies.cmake	2026-01-27 07:28:56.678016704 +0100
+@@ -15,15 +15,34 @@ endif()
+ # ------------------------------------------------------------------------------
+ 
+ include(FetchContent)
++option(SOLARUS_USE_LOCAL_QLEMENTINE "Use a local build of Qlementine instead of FetchContent download" ON)
++option(SOLARUS_USE_LOCAL_QLEMENTINE_ICONS "Use a local build of Qlementine-icons instead of FetchContent download" ON)
++option(SOLARUS_USE_LOCAL_QTAPPINSTANCEMANAGER "Use a local build of QtAppInstanceManager instead of FetchContent download" ON)
+ 
+ # ------------------------------------------------------------------------------
+ 
++if(SOLARUS_USE_LOCAL_QLEMENTINE_ICONS)
++  set(SOLARUS_QLEMENTINE_ICONS_LOCAL_PATH "" CACHE PATH "Path to the local Qlementine-icons source directory")
++  # Check if the provided path is valid.
++  if(NOT IS_DIRECTORY "${SOLARUS_QLEMENTINE_ICONS_LOCAL_PATH}")
++    message(FATAL_ERROR "SOLARUS_QLEMENTINE_ICONS_LOCAL_PATH is set to '${SOLARUS_QLEMENTINE_ICONS_LOCAL_PATH}' but it's not a valid directory. Please provide the correct path to your local qlementine-icons clone.")
++  else()
++    set(Qlementine_SOURCE_DIR ${SOLARUS_QLEMENTINE_ICONS_LOCAL_PATH})
++    message(STATUS "Using local Qlementine-icons source from: ${SOLARUS_QLEMENTINE_ICONS_LOCAL_PATH}")
++  endif()
++  FetchContent_Declare(
++    qlementine-icons
++    SOURCE_DIR "${SOLARUS_QLEMENTINE_ICONS_LOCAL_PATH}"
++    EXCLUDE_FROM_ALL
++  )
++else()
+ # Qlementine-Icons: an SVG icon library made for Qt.
+ FetchContent_Declare(qlementine-icons
+   GIT_REPOSITORY "https://github.com/oclero/qlementine-icons.git"
+   GIT_TAG v1.13.0
+   EXCLUDE_FROM_ALL
+ )
++endif()
+ FetchContent_MakeAvailable(qlementine-icons)
+ set_target_properties(qlementine-icons
+   PROPERTIES
+@@ -32,12 +51,28 @@ set_target_properties(qlementine-icons
+ 
+ # ------------------------------------------------------------------------------
+ 
++if(SOLARUS_USE_LOCAL_QLEMENTINE)
++  set(SOLARUS_QLEMENTINE_LOCAL_PATH "" CACHE PATH "Path to the local Qlementine source directory")
++  # Check if the provided path is valid.
++  if(NOT IS_DIRECTORY "${SOLARUS_QLEMENTINE_LOCAL_PATH}")
++    message(FATAL_ERROR "SOLARUS_QLEMENTINE_LOCAL_PATH is set to '${SOLARUS_QLEMENTINE_LOCAL_PATH}' but it's not a valid directory. Please provide the correct path to your local qlementine clone.")
++  else()
++    set(Qlementine_SOURCE_DIR ${SOLARUS_QLEMENTINE_LOCAL_PATH})
++    message(STATUS "Using local Qlementine source from: ${SOLARUS_QLEMENTINE_LOCAL_PATH}")
++  endif()
++  FetchContent_Declare(
++    qlementine
++    SOURCE_DIR "${SOLARUS_QLEMENTINE_LOCAL_PATH}"
++    EXCLUDE_FROM_ALL
++  )
++else()
+ # Qlementine: the QStyle library to have a modern look n' feel.
+ FetchContent_Declare(qlementine
+   GIT_REPOSITORY "https://github.com/oclero/qlementine.git"
+   GIT_TAG v1.4.1
+   EXCLUDE_FROM_ALL
+ )
++endif()
+ FetchContent_MakeAvailable(qlementine)
+ set_target_properties(qlementine
+   PROPERTIES
+@@ -46,12 +81,28 @@ set_target_properties(qlementine
+ 
+ # ------------------------------------------------------------------------------
+ 
++if(SOLARUS_USE_LOCAL_QTAPPINSTANCEMANAGER)
++  set(SOLARUS_QTAPPINSTANCEMANAGER_LOCAL_PATH "" CACHE PATH "Path to the local QtAppInstanceManager source directory")
++  # Check if the provided path is valid.
++  if(NOT IS_DIRECTORY "${SOLARUS_QTAPPINSTANCEMANAGER_LOCAL_PATH}")
++    message(FATAL_ERROR "SOLARUS_QTAPPINSTANCEMANAGER_LOCAL_PATH is set to '${SOLARUS_QTAPPINSTANCEMANAGER_LOCAL_PATH}' but it's not a valid directory. Please provide the correct path to your local QtAppInstanceManager clone.")
++  else()
++    set(QtAppInstanceManager_SOURCE_DIR ${SOLARUS_QTAPPINSTANCEMANAGER_LOCAL_PATH})
++    message(STATUS "Using local QtAppInstanceManager source from: ${SOLARUS_QTAPPINSTANCEMANAGER_LOCAL_PATH}")
++  endif()
++  FetchContent_Declare(
++    QtAppInstanceManager
++    SOURCE_DIR "${SOLARUS_QTAPPINSTANCEMANAGER_LOCAL_PATH}"
++    EXCLUDE_FROM_ALL
++  )
++else()
+ # QtAppInstanceManager: a library to manage multiple instances of a Qt application.
+ FetchContent_Declare(QtAppInstanceManager
+  GIT_REPOSITORY "https://github.com/oclero/qtappinstancemanager.git"
+  GIT_TAG v1.3.1
+  EXCLUDE_FROM_ALL
+ )
++endif()
+ FetchContent_MakeAvailable(QtAppInstanceManager)
+ set_target_properties(QtAppInstanceManager
+   PROPERTIES

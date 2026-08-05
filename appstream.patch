@@ -1,0 +1,133 @@
+From b48e1a9aed5cf6d05d2e6f897409c1e7e15cc9bc Mon Sep 17 00:00:00 2001
+Date: Wed, 5 Aug 2026 20:50:17 +0200
+Subject: [PATCH 1/5] Fix developer tag.
+
+---
+ launcher/cmake/linux/app.metainfo.xml.in | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/launcher/cmake/linux/app.metainfo.xml.in b/launcher/cmake/linux/app.metainfo.xml.in
+index 3ac93d565..8cca52669 100644
+--- a/launcher/cmake/linux/app.metainfo.xml.in
++++ b/launcher/cmake/linux/app.metainfo.xml.in
+@@ -32,7 +32,9 @@
+   <update_contact>@SOLARUSLAUNCHER_EMAIL@</update_contact>
+   <launchable type="desktop-id">@SOLARUSLAUNCHER_APP_IDENTIFIER@.desktop</launchable>
+   <project_group>Solarus</project_group>
+-  <developer>@SOLARUSLAUNCHER_ORGANISATION@</developer>
++  <developer id="org.solarus-games">
++    <name>@SOLARUSLAUNCHER_ORGANISATION@</name>
++  </developer>
+   <provides>
+     <id>@SOLARUSLAUNCHER_APP_IDENTIFIER@.desktop</id>
+   </provides>
+-- 
+GitLab
+
+
+From 120e5ad9953adc98188bc50cc10618561a3bf5ea Mon Sep 17 00:00:00 2001
+Date: Wed, 5 Aug 2026 20:50:30 +0200
+Subject: [PATCH 2/5] Fix empty URLs.
+
+---
+ launcher/cmake/linux/app.metainfo.xml.in | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/launcher/cmake/linux/app.metainfo.xml.in b/launcher/cmake/linux/app.metainfo.xml.in
+index 8cca52669..881d4998b 100644
+--- a/launcher/cmake/linux/app.metainfo.xml.in
++++ b/launcher/cmake/linux/app.metainfo.xml.in
+@@ -25,10 +25,10 @@
+     </screenshot>
+   </screenshots>
+   <url type="homepage">@PROJECT_HOMEPAGE_URL@</url>
+-  <url type="bugtracker">@LINKS_BUGTRACKER@</url>
+-  <url type="help">@LINKS_HELP@</url>
+-  <url type="donation">@LINKS_DONATION@</url>
+-  <url type="contact">@LINKS_CONTACT@</url>
++  <url type="bugtracker">https://gitlab.com/solarus-games/solarus/-/work_items</url>
++  <url type="help">https://docs.solarus-games.org</url>
++  <url type="donation">https://www.solarus-games.org/about/donate/</url>
++  <url type="contact">https://www.solarus-games.org/about/contact/</url>
+   <update_contact>@SOLARUSLAUNCHER_EMAIL@</update_contact>
+   <launchable type="desktop-id">@SOLARUSLAUNCHER_APP_IDENTIFIER@.desktop</launchable>
+   <project_group>Solarus</project_group>
+-- 
+GitLab
+
+
+From c26b620f316795e227c54ae3518049ff8ab09469 Mon Sep 17 00:00:00 2001
+Date: Wed, 5 Aug 2026 20:50:40 +0200
+Subject: [PATCH 3/5] Don't use this tag twice.
+
+---
+ launcher/cmake/linux/app.metainfo.xml.in | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/launcher/cmake/linux/app.metainfo.xml.in b/launcher/cmake/linux/app.metainfo.xml.in
+index 881d4998b..902e838f2 100644
+--- a/launcher/cmake/linux/app.metainfo.xml.in
++++ b/launcher/cmake/linux/app.metainfo.xml.in
+@@ -44,8 +44,6 @@
+   <supports>
+     <control>pointing</control>
+     <control>keyboard</control>
+-  </supports>
+-  <supports>
+     <internet>offline-only</internet>
+   </supports>
+   <branding>
+-- 
+GitLab
+
+
+From d4230cd9f36b305cd88afa71a48e4167be7626a6 Mon Sep 17 00:00:00 2001
+Date: Wed, 5 Aug 2026 20:51:03 +0200
+Subject: [PATCH 4/5] Add Open Age Rating Service.
+
+---
+ launcher/cmake/linux/app.metainfo.xml.in | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/launcher/cmake/linux/app.metainfo.xml.in b/launcher/cmake/linux/app.metainfo.xml.in
+index 902e838f2..e8f1a6c78 100644
+--- a/launcher/cmake/linux/app.metainfo.xml.in
++++ b/launcher/cmake/linux/app.metainfo.xml.in
+@@ -50,4 +50,8 @@
+     <color type="primary" scheme_preference="light">#ffab00</color>
+     <color type="primary" scheme_preference="dark">#ffab00</color>
+   </branding>
++  <content_rating type="oars-1.1">
++    <content_attribute id="violence-cartoon">moderate</content_attribute>
++    <content_attribute id="violence-bloodshed">mild</content_attribute>
++  </content_rating>
+ </component>
+-- 
+GitLab
+
+
+From 857b2ec1bd8d65aa656af44030ee6f86e89249fe Mon Sep 17 00:00:00 2001
+Date: Wed, 5 Aug 2026 21:07:48 +0200
+Subject: [PATCH 5/5] Add release information.
+
+---
+ launcher/cmake/linux/app.metainfo.xml.in | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/launcher/cmake/linux/app.metainfo.xml.in b/launcher/cmake/linux/app.metainfo.xml.in
+index e8f1a6c78..86f1d16b0 100644
+--- a/launcher/cmake/linux/app.metainfo.xml.in
++++ b/launcher/cmake/linux/app.metainfo.xml.in
+@@ -54,4 +54,9 @@
+     <content_attribute id="violence-cartoon">moderate</content_attribute>
+     <content_attribute id="violence-bloodshed">mild</content_attribute>
+   </content_rating>
++  <releases>
++    <release version="2.1.1" date="2026-08-05">
++      <url>https://www.solarus-games.org/news/2026-08-05-solarus-2-1-1-release/</url>
++    </release>
++  </releases>
+ </component>
+-- 
+GitLab
+
