@@ -11,6 +11,9 @@ finish-args:
   - --device=dri
 
 modules:
+  - shared-modules/luajit/luajit.json
+  - shared-modules/physfs/physfs.json
+
   - name: glm
     buildsystem: cmake-ninja
     config-opts:
@@ -21,23 +24,6 @@ modules:
       url: https://github.com/g-truc/glm.git
       tag: 0.9.9.3
 
-  - name: luajit
-    no-autogen: true
-    cleanup:
-      - /bin
-      - /lib/*.a
-      - /include
-      - /lib/pkgconfig
-      - /share/man
-    sources:
-      - type: git
-        url: https://github.com/LuaJIT/LuaJIT.git
-        tag: v2.0.5
-        commit: 0bf80b07b0672ce874feedcc777afe1b791ccb5a
-      - type: shell
-        commands:
-          - sed -i 's|/usr/local|/app|' ./Makefile
-
   - name: libmodplug
     cleanup:
       - /include
@@ -45,20 +31,6 @@ modules:
       - type: archive
         url: https://download.sourceforge.net/project/modplug-xmms/libmodplug/0.8.9.0/libmodplug-0.8.9.0.tar.gz
         sha512: 880e10154fd367ee24ace53ca7e32a5c1fee7dfff1f934e6499944c12779427da63e2f55f8d6ce25db0a42a5b4424053bf64305b31dbfc4ef6a8909924d655fd
-
-  - name: physfs
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DPHYSFS_BUILD_TEST=OFF
-    sources:
-      - type: archive
-        url: https://icculus.org/physfs/downloads/physfs-3.0.2.tar.bz2
-        sha256: 304df76206d633df5360e738b138c94e82ccf086e50ba84f456d3f8432f9f863
-        size: 194888
-        x-checker-data:
-          type: anitya
-          project-id: 3631
-          url-template: https://icculus.org/physfs/downloads/physfs-$version.tar.bz2
 
   - name: solarus
     buildsystem: cmake-ninja
