@@ -1,6 +1,6 @@
 app-id: org.solarus_games.solarus.Launcher
 runtime: org.kde.Platform
-runtime-version: '5.15-24.08'
+runtime-version: '5.15-25.08'
 sdk: org.kde.Sdk
 command: solarus-launcher
 finish-args:
@@ -11,6 +11,8 @@ finish-args:
   - --device=dri
 
 modules:
+  - shared-modules/SDL2/SDL2_image.json
+  - shared-modules/SDL2/SDL2_ttf.json
   - shared-modules/luajit/luajit.json
   - shared-modules/physfs/physfs.json
 
@@ -19,6 +21,7 @@ modules:
     config-opts:
     - -DGLM_TEST_ENABLE=OFF
     - -DCMAKE_INSTALL_LIBDIR=lib
+    - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
     - type: git
       url: https://github.com/g-truc/glm.git
@@ -35,6 +38,8 @@ modules:
 
   - name: solarus
     buildsystem: cmake-ninja
+    config-opts:
+    - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     builddir: true
     post-install:
       - rm ${FLATPAK_DEST}/share/metainfo/org.solarus_games.solarus.appdata.xml
@@ -49,3 +54,5 @@ modules:
         path: solarus-launcher.appdata.xml
       - type: file
         path: icon.png
+      - type: patch
+        path: modplug-stdint.patch
